@@ -1,0 +1,18 @@
+.startbar
+{
+    width:      100%;
+    box-sizing: border-box;
+
+    display:    grid;
+    grid-template-columns: min-content auto;
+}
+
+.startbar:first-child
+{
+    border-bottom:      1px solid var(--osgui-control-border, rgba(255, 255, 255, .85));
+}
+
+.startbar:last-child
+{
+    border-top:         1px solid var(--osgui-control-border, rgba(255, 255, 255, .85));
+}

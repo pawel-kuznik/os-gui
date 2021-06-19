@@ -1,0 +1,19 @@
+.startbar-startbutton
+{
+    border:     0;
+    padding:    .25rem 1em;
+    background: transparent;
+    color:      var(--osgui-control-border-font-color, rgba(255, 255, 255, .9));
+    margin:     .2rem;
+    border-radius: 0;
+    transition: background .25s, border-color .15s;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+}
+
+.startbar-startbutton:hover
+{
+    background: rgba(255, 255, 255, .2);
+    border-color: rgba(255, 255, 255, .5);
+}
