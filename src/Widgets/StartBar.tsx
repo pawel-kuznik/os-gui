@@ -4,7 +4,11 @@ import StartButton from './StartBar/StartButton';
 import StartMenu from "./StartBar/StartMenu";
 import './StartBar.css';
 
-export default class StartBar extends React.Component {
+export interface StartBarProps {
+    onAppStart?: (name:string) => void
+};
+
+export default class StartBar extends React.Component<StartBarProps> {
 
     private _menu:React.RefObject<StartMenu> = React.createRef<StartMenu>();
 
@@ -28,5 +32,6 @@ export default class StartBar extends React.Component {
 
         this._menu.current?.hide();
 
+        if (this.props.onAppStart) this.props.onAppStart(name);
     }
 };

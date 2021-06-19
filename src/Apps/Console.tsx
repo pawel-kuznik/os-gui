@@ -1,5 +1,5 @@
-import React from "react";
+import Window from '../Widgets/Window';
 
-export default class Console extends React.Component {
+export default class Console extends Window {
 
 };
