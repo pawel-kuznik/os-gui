@@ -1,37 +1,44 @@
-import React from "react";
+import './StartBar.css';
+import { useState } from "react";
 import AppsBar from "./StartBar/AppsBar";
 import StartButton from './StartBar/StartButton';
 import StartMenu from "./StartBar/StartMenu";
-import './StartBar.css';
 
+/**
+ *  Properties for the component.
+ */
 export interface StartBarProps {
     onAppStart?: (name:string) => void
 };
 
-export default class StartBar extends React.Component<StartBarProps> {
+/**
+ *  The state object.
+ */
+interface State {
+    menuShown: boolean
+};
 
-    private _menu:React.RefObject<StartMenu> = React.createRef<StartMenu>();
+/**
+ *  The component representing a start bar. A bar that holds an icon that shows a list of applications,
+ *  and besides this icon a list of currently running applications.
+ */
+export default function StartBar(props:StartBarProps) {
 
+    const [ state, setState ] = useState<State>({ 
+        menuShown: false
+    });
 
-    public render() {
-        return (
-            <div className="startbar">
-                <StartButton onClick={this.handleButtonClick.bind(this)} />
-                <AppsBar/>
-                <StartMenu ref={this._menu} onStart={this.handleAppStart.bind(this)} />
-            </div> 
-        );
-    }
+    function handleButtonClick() {
 
-    private handleButtonClick() {
+        // toggle the menu
+        setState(Object.assign({ }, state, { menuShown: !state.menuShown }));
+    };
 
-        this._menu.current?.toggle();
-    }
-
-    private handleAppStart(name:string) {
-
-        this._menu.current?.hide();
-
-        if (this.props.onAppStart) this.props.onAppStart(name);
-    }
+    return (
+        <div className="startbar">
+            <StartButton onClick={handleButtonClick} />
+            <AppsBar/>
+            <StartMenu shown={state.menuShown} onStart={(name:string) => props.onAppStart && props.onAppStart(name)} />
+        </div> 
+    );
 };

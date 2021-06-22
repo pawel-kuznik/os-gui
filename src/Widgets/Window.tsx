@@ -1,50 +1,42 @@
-import React from "react";
+import { useState } from "react";
+import RunningApplication from "./RunningApplication";
 import './Window.css';
 
 export interface WindowProps {
-    title:string,
-    x:number,
-    y:number,
-    width:number,
-    height:number
+    app:RunningApplication,
+    box?:WindowBox
 }
 
-export interface WindowState {
-    x:number,
-    y:number,
+export interface WindowBox {
+    top:number,
+    left:number,
     width:number,
-    height:number
+    height:number,
 };
 
-export default class Window extends React.Component<WindowProps, WindowState> {
+interface WindowState {
+    box:WindowBox
+};
 
-    constructor(props:WindowProps) {
-        super(props);
+export default function Window(props:WindowProps) {
 
-        this.state = props;
-    }
+    const [ state, setState ] = useState<WindowState>({ 
+        box: props.box || { 
+            top: 50,
+            left: 50,
+            width: 640,
+            height: 480
+        }
+    });
 
-    public render() {
+    const styles = {
+        top:    state.box.top,
+        left:   state.box.left,
+        with:   state.box.width,
+        height: state.box.height
+    };
 
-        const styles = {
-            top:    this.state?.y,
-            left:   this.state?.x,
-            with:   this.state?.width,
-            height: this.state?.height
-        };
-
-        return (
-            <div className="window" style={styles} />
-        );
-    }
-
-    public move(x:number, y:number) {
-
-        this.setState(Object.assign({ }, this.state, { x, y }));
-    }
-
-    public resize(width:number, height:number) {
-
-        this.setState(Object.assign({ }, this.state, { width, height }));
-    }
+    return (
+        <div className="window" style={styles}/>
+    );
 };

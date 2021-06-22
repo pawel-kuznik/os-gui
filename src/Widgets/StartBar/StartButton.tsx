@@ -1,22 +1,19 @@
-import React, { SyntheticEvent } from "react";
 import './StartButton.css';
 
+/**
+ *  Properties for the component.
+ */
 export interface StartButtonProps {
     onClick?:() => void
 };
 
-export default class StartButton extends React.Component<StartButtonProps> {
-
-    public render() {
-        return (
-            <button className="startbar-startbutton" onClick={this.handleClick.bind(this)}>
-                Start
-            </button>
-        );
-    }
-
-    private handleClick(e:SyntheticEvent) {
-
-        if (this.props.onClick) this.props.onClick();
-    }
-};
+/**
+ *  The button to show the dropdown menu with application list.
+ */
+export default function StartButton({ onClick }:StartButtonProps) {
+    return (
+        <button className="startbar-startbutton" onClick={() => onClick && onClick()}>
+            Start
+        </button>
+    );
+}

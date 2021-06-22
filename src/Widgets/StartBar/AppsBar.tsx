@@ -1,10 +1,9 @@
-import React from "react";
+/**
+ *  A component responsible for showin a list of running applications.
+ */
+export default function AppsBar() {
 
-export default class AppsBar extends React.Component {
-
-    render() {
-        return (
-            <div className="start-appsbar"/>
-        );
-    }
+    return (
+        <div className="start-appsbar"/>
+    );
 };

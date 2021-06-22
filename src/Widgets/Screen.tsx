@@ -1,31 +1,21 @@
-import React from "react";
-import StartBar from "./StartBar";
 import './Screen.css';
+import { useState } from 'react';
+import StartBar from "./StartBar";
+import RunningApplication from "./RunningApplication";
 import Window from './Window';
 
-interface ScreenState {
-    apps:Set<Window>;
-};
+/**
+ *  The component responsible for showing a screen.
+ */
+export default function Screen() {
 
-export default class Screen extends React.Component<any, ScreenState> {
+    const [ apps, setApplications ] = useState<Array<RunningApplication>>([ ]);
 
-    constructor(props:any) {
-        super(props);
+    function handleAppStart(name:string) {
 
-        this.state = {
-            apps: new Set()
-        };
-    }
+        console.log('start app', name);
 
-    public render() {
-        return (
-            <div className="screen">
-                <StartBar onAppStart={this.handleAppStart.bind(this)}/>
-            </div>
-        );
-    };
-
-    private handleAppStart(name:string) {
+        setApplications([...apps, new RunningApplication() ]);
 
         // @todo handle an app start. We will write it in a way that it updates
         // start with Window instance. This window instance will be provisioned
@@ -34,5 +24,12 @@ export default class Screen extends React.Component<any, ScreenState> {
         // detach thes iframes and then attach them when needed again. Communication
         // between the application and the main one will be done via message
         // port api.
-    }
+    };
+
+    return (
+        <div className="screen">
+            <StartBar onAppStart={handleAppStart}/>
+            {[...apps].map(w => (<Window app={w} />) )}
+        </div>
+    );
 };

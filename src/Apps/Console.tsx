@@ -1,5 +1,5 @@
 import Window from '../Widgets/Window';
 
-export default class Console extends Window {
+export default class Console {
 
 };

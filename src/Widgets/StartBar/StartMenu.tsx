@@ -1,52 +1,25 @@
-import React from "react";
-import Application from "./StartMenu/Application";
 import './StartMenu.css';
+import Application from "./StartMenu/Application";
 
+/**
+ *  Properties for the component.
+ */
 export interface StartMenuProps {
-    onStart?:(name:string) => void
+    onStart?:(name:string) => void,
+    shown?:boolean
 };
 
-interface StartMenuState {
-    shown:boolean
-};
+/**
+ *  A component responsible for showing a list of installed applications that user can run.
+ */
+export default function StartMenu(props:StartMenuProps) {
 
-export default class StartMenu extends React.Component<StartMenuProps, StartMenuState> {
+    const classes = [ 'startbar-startmenu' ];
+    if (props.shown) classes.push('startbar-startmenu-shown');
 
-    constructor(props:StartMenuProps) {
-        super(props);
-
-        this.state = { shown: false };
-    }
-
-    public render() {
-        return (
-            <div className={this.state.shown ? 'startbar-startmenu startbar-startmenu-shown' : 'startbar-startmenu'}>
-                <Application appName="console" onClick={this.handleApplicationClick.bind(this)}/>
-            </div> 
-        );
-    }
-
-    public toggle() {
-
-        return this.state.shown ? this.hide() : this.show();
-    }
-
-    public show() {
-
-        this.setState(Object.assign({ }, this.state, {
-            shown: true
-        }));
-    }
-
-    public hide() {
-
-        this.setState(Object.assign({ }, this.state, {
-            shown: false
-        }));
-    }
-
-    private handleApplicationClick(name:string) {
-
-        if (this.props.onStart) this.props.onStart(name);
-    }
+    return (
+        <div className={classes.join(' ')}>
+            <Application appName="console" onClick={(name:string) => props.onStart && props.onStart(name)}/>
+        </div> 
+    );
 };
