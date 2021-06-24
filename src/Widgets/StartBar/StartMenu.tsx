@@ -1,3 +1,5 @@
+import { useContext } from 'react';
+import { PackagesContext } from '../../App';
 import './StartMenu.css';
 import Application from "./StartMenu/Application";
 
@@ -17,9 +19,13 @@ export default function StartMenu(props:StartMenuProps) {
     const classes = [ 'startbar-startmenu' ];
     if (props.shown) classes.push('startbar-startmenu-shown');
 
+    // @todo this shouldn't use PackagesContext. Instead it should use a registry of installed applications.
+
+    const apps = useContext(PackagesContext).listApplications().map((name:string) => (<Application key={name} appName={name} onClick={(name:string) => props.onStart && props.onStart(name)}/>));
+
     return (
         <div className={classes.join(' ')}>
-            <Application appName="console" onClick={(name:string) => props.onStart && props.onStart(name)}/>
+            {apps}
         </div> 
     );
 };
