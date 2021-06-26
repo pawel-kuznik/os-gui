@@ -1,4 +1,5 @@
-import Package from "./Package";
+import Console from "../Apps/Console";
+import Package from "../Package";
 /**
  *  This is a class providing an access to all packages that the whole system has access to.
  *  This class should be used to register, list, and fetch new packages. Later on the system
@@ -12,11 +13,15 @@ export default class PackagesProvider {
     private static _instance:PackagesProvider;
 
     /**
-     *  Get the main instance of AppsProvder
+     *  Get an initialized instance of PackagesProvider
      */
     static getInstance() : PackagesProvider {
 
-        if (!this._instance) this._instance = new PackagesProvider();
+        if (this._instance) return this._instance; 
+
+        this._instance = new PackagesProvider();
+
+        this._instance.register(new Console());
 
         return this._instance;
     }
@@ -31,7 +36,14 @@ export default class PackagesProvider {
      */
     private constructor() {
 
+        
     }
+
+    /**
+     *  The number of registered packages.
+     *  @todo add observer
+     */
+    public get size() : number { return this._packages.size; }
 
     /**
      *  Register an application.
