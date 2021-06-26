@@ -1,11 +1,15 @@
 import Console from "../Apps/Console";
 import Package from "../Package";
+import { Emitter } from "iventy";
 /**
  *  This is a class providing an access to all packages that the whole system has access to.
  *  This class should be used to register, list, and fetch new packages. Later on the system
  *  would use this class to provide execution for actual applications.
+ * 
+ *  @event  change  This event triggers when there is a change to the registry. A package was
+ *                  added or removed.
  */
-export default class PackagesProvider {
+export default class PackagesProvider extends Emitter {
 
     /**
      *  The singletone instance.
@@ -35,8 +39,7 @@ export default class PackagesProvider {
      *  The private constructor cause we want to force use of a singletone instance.
      */
     private constructor() {
-
-        
+        super();
     }
 
     /**
@@ -58,6 +61,8 @@ export default class PackagesProvider {
 
         this._packages.set(versioned, template);
 
+        this.trigger('change');
+
         return true;
     }
 
@@ -75,7 +80,7 @@ export default class PackagesProvider {
     public listVersions(name:string) : Array<string> {
 
         return [...this._packages.keys()].filter(versioned => {
-            return versioned.split('::')[0] == name;
+            return versioned.split('::')[0].localeCompare(name) === 0;
         }).map(versioned => {
             return versioned.split('::')[1];
         }).sort((a:string, b:string) => {
