@@ -31,6 +31,6 @@ export default function StartMenu(props:StartMenuProps) {
     return (
         <div className={classes.join(' ')}>
             {apps}
-        </div> 
+        </div>
     );
 };

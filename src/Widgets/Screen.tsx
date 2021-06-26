@@ -1,8 +1,26 @@
 import './Screen.css';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import StartBar from "./StartBar";
 import RunningApplication from "./RunningApplication";
 import Window from './Window';
+
+/**
+ *  The context providing all children information about the number of applications
+ *  running right now.
+ */
+export const RunningApplicationsContext = React.createContext({ applications: 0 });
+
+/**
+ *  An internal provider telling how many applications are running right now.
+ */
+const RunningApplicationsProvider = function({ children } : { children: JSX.Element }) {
+
+    return (
+        <RunningApplicationsContext.Provider value={{ applications: 0 }}>
+            {children}
+        </RunningApplicationsContext.Provider>
+    );
+};
 
 /**
  *  The component responsible for showing a screen.
@@ -12,8 +30,6 @@ export default function Screen() {
     const [ apps, setApplications ] = useState<Array<RunningApplication>>([ ]);
 
     function handleAppStart(name:string) {
-
-        console.log('start app', name);
 
         setApplications([...apps, new RunningApplication() ]);
 
@@ -27,9 +43,11 @@ export default function Screen() {
     };
 
     return (
-        <div className="screen">
-            <StartBar onAppStart={handleAppStart}/>
-            {[...apps].map(w => (<Window app={w} />) )}
-        </div>
+        <RunningApplicationsProvider>
+            <div className="screen">
+                <StartBar onAppStart={handleAppStart}/>
+                {[...apps].map(w => (<Window app={w} />) )}
+            </div>
+        </RunningApplicationsProvider>
     );
 };
